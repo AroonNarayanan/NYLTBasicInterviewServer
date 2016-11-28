@@ -13,10 +13,10 @@ app.use(bodyParser.json());
 var router = express.Router();
 
 var options = multer.diskStorage({
-	destination: 'images/',
-	filename: function (req, file, cb) {
-		cb(null, req.params.id);
-	}
+    destination: 'images/',
+    filename: function (req, file, cb) {
+        cb(null, req.params.id);
+    }
 });
 var candidate_image_uploads = multer({ storage: options });
 
@@ -42,6 +42,12 @@ router.route('/candidates/:id/image')
     .get(function (req, res) {
         res.sendFile(path.join(__dirname, "/images/" + req.params.id));
     })
-	.post(candidate_image_uploads.single('candidateImage'), function (req, res) {
-		res.json({ message: 'File uploaded.' });
-	});
+    .post(candidate_image_uploads.single('candidateImage'), function (req, res) {
+        res.json({ message: 'File uploaded.' });
+    });
+
+app.use(router);
+var port = process.env.port || 80;
+
+app.listen(port);
+console.log('Server available on port ' + port);
