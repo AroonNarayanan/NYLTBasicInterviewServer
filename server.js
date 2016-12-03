@@ -47,6 +47,10 @@ router.route('/images')
     .post(candidate_image_uploads.single('candidateImage'), function (req, res) {
         res.json({ message: 'File uploaded.' });
     });
+    router.route('/policy')
+	.get(function(req,res){
+		res.send("NYLT Interview Capture won't share any information transmitted through its app or stored on its servers, nor will that data be used for any other purpose beyond the services the app provides. The data will furthermore not be retained after it is deleted by the user.");
+	});
 
 app.use(router);
 var port = process.env.port || 80;
