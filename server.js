@@ -38,9 +38,9 @@ router.route('/candidates')
                 res.json({ message: 'Candidate created.' });
         });
     });
-router.route('/candidates/:id/image')
+router.route('/images')
     .get(function (req, res) {
-        res.sendFile(path.join(__dirname, "/images/" + req.params.id));
+        res.sendFile(path.join(__dirname, "/images/" + req.query.name));
     })
     .post(candidate_image_uploads.single('candidateImage'), function (req, res) {
         res.json({ message: 'File uploaded.' });
