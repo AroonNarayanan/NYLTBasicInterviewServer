@@ -2,6 +2,8 @@ var express = require('express');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var multer = require('multer');
+var path = require('path');
+var fs = require('fs');
 
 var Candidate = require('./Candidate.js');
 var app = express();
