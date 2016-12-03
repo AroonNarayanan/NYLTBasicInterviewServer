@@ -15,7 +15,7 @@ var router = express.Router();
 var options = multer.diskStorage({
     destination: 'images/',
     filename: function (req, file, cb) {
-        cb(null, req.params.id);
+        cb(null, req.query.name);
     }
 });
 var candidate_image_uploads = multer({ storage: options });
