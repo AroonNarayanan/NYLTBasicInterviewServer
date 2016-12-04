@@ -26,7 +26,17 @@ router.route('/candidates')
     .get(function (req, res) {
         Candidate.find({}).exec(function (err, results) {
             if (err) { res.send(err); } else {
-                res.json(results);
+                res.json(results.sort(function(a,b){
+                    var aname = a.LastName.toLowerCase();
+                    var bname = b.LastName.toLowerCase();
+                    if (aname < bname) {
+                        return -1;
+                    }
+                    if (aname > bname) {
+                        return 1;
+                    }
+                    return 0;
+                }));
             }
         });
     })
@@ -40,6 +50,14 @@ router.route('/candidates')
                 res.json({ message: 'Candidate created.' });
         });
     });
+router.route('/candidates/:id')
+    .delete(function (req, res) {
+        Candidate.remove({_id: req.params.id}, function(err, scout){
+            if (err) {res.send(err)} else {
+                res.json({"message": "Deletion successful."});
+            }
+        })
+    });
 router.route('/images')
     .get(function (req, res) {
         res.sendFile(path.join(__dirname, "/images/" + req.query.name));
@@ -47,10 +65,10 @@ router.route('/images')
     .post(candidate_image_uploads.single('candidateImage'), function (req, res) {
         res.json({ message: 'File uploaded.' });
     });
-    router.route('/policy')
-	.get(function(req,res){
-		res.send("NYLT Interview Capture won't share any information transmitted through its app or stored on its servers, nor will that data be used for any other purpose beyond the services the app provides. The data will furthermore not be retained after it is deleted by the user.");
-	});
+router.route('/policy')
+    .get(function (req, res) {
+        res.send("NYLT Interview Capture won't share any information transmitted through its app or stored on its servers, nor will that data be used for any other purpose beyond the services the app provides. The data will furthermore not be retained after it is deleted by the user.");
+    });
 
 app.use(router);
 var port = process.env.port || 80;
